@@ -37,11 +37,19 @@ export const userDTO = Yup.object({
     confirmPassword: validateConfirmPassword,
 });
 
+export const userGoogleDTO = Yup.object({
+    fullname: Yup.string().required(),
+    email: Yup.string().email().required(),
+    googleId: Yup.string().required(),
+});
+
 export type TypeUser = Yup.InferType<typeof userDTO>;
+export type TypeGoogleUser = Yup.InferType<typeof userGoogleDTO>;
 
 export interface User extends Omit<TypeUser, "confirmPassword"> {
     role: string;
     profilePicture: string;
+    googleId?: string; // Tambahkan field googleId
     createdAt?: string;
 }
 
@@ -74,6 +82,11 @@ const UserSchema = new Schema<User>(
             type: Schema.Types.String,
             default: "user.jpg",
         },
+        googleId: {
+            type: Schema.Types.String,
+            sparse: true,
+            unique: true,
+        },
     },
     {
         timestamps: true,
@@ -82,8 +95,9 @@ const UserSchema = new Schema<User>(
 
 UserSchema.pre("save", function (next) {
     const user = this;
-    user.password = encrypt(user.password);
-
+    if (user.isModified("password") && user.password) {
+        user.password = encrypt(user.password);
+    }
     next();
 });
 

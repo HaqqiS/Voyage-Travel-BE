@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { response, Response } from "express";
+import { Response } from "express";
 import * as Yup from "yup";
 
 interface Pagination {
@@ -21,7 +21,7 @@ export default {
 
     error(res: Response, error: unknown, message: string) {
         if (error instanceof Yup.ValidationError) {
-            return res.status(400).json({
+            res.status(400).json({
                 meta: {
                     status: 400,
                     message,
@@ -33,7 +33,7 @@ export default {
         }
 
         if (error instanceof mongoose.Error) {
-            return res.status(500).json({
+            res.status(500).json({
                 meta: {
                     status: 500,
                     message: error.message,
@@ -43,13 +43,13 @@ export default {
         }
 
         if ((error as any)?.code) {
-            const __err = error as any;
-            return res.status(500).json({
+            const _err = error as any;
+            res.status(500).json({
                 meta: {
                     status: 500,
-                    message: __err?.errorResponse.errmsg || "Internal server error",
+                    message: _err?.errorResponse?.errmsg || "server error",
                 },
-                data: __err,
+                data: _err,
             });
         }
 

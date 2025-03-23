@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import UserModel, { userDTO, userLoginDTO } from "../models/user.model";
 import response from "../utils/response";
 import { encrypt } from "../utils/encryption";
 import { generateToken } from "../utils/jwt";
-import { IReqUser } from "../utils/interfaces";
-import { google } from "googleapis";
-import oauth2Client from "../utils/googleAuth";
+import { GoogleUserInfo, IReqUser } from "../utils/interfaces";
+import { getGoogleAuthURL, getGoogleUserInfo } from "../utils/googleAuth";
+import { getId } from "../utils/id";
 
 export default {
     async register(req: Request, res: Response) {
@@ -61,47 +61,70 @@ export default {
         }
     },
 
-    async googleLogin(req: Request, res: Response) {
-        res.redirect(
-            oauth2Client.generateAuthUrl({
-                access_type: "offline",
-                scope: ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"],
-                include_granted_scopes: true,
-            })
-        );
+    async googleAuthUrl(req: Request, res: Response) {
+        try {
+            const url = getGoogleAuthURL();
+            response.success(res, { url }, "Google auth URL generated successfully");
+        } catch (error) {
+            response.error(res, error, "Failed to generate Google auth URL");
+        }
     },
 
-    async googleCallback(req: Request, res: Response, next: NextFunction) {
+    async googleCallback(req: Request, res: Response) {
         try {
             const { code } = req.query;
-            // if (!code) {
-            //     return response.error(res, "Invalid Request", "No code provided");
-            // }
-            const { tokens } = await oauth2Client.getToken(code as string);
-            oauth2Client.setCredentials(tokens);
-            const oauth2 = google.oauth2({
-                auth: oauth2Client,
-                version: "v2",
-            });
-            const { data } = await oauth2.userinfo.get();
-            // if (!data || !data.email) {
-            //     return response.error(res, "Google login failed", "No user data retrieved");
-            // }
-            let user = await UserModel.findOne({ email: data.email });
-            if (!user) {
-                user = await UserModel.create({
-                    email: data.email,
-                    fullname: data.name,
-                    profilePicture: data.picture,
-                });
+
+            if (!code || typeof code !== "string") {
+                return response.error(res, null, "Authorization code is missing");
             }
+
+            const googleUser = (await getGoogleUserInfo(code as string)) as GoogleUserInfo;
+
+            if (!googleUser.email || !googleUser.id) {
+                return response.error(res, null, "Failed to get user info from Google");
+            }
+
+            // Cek apakah user dengan googleId ini sudah ada
+            let user = await UserModel.findOne({ googleId: googleUser.id });
+
+            if (!user) {
+                // Cek apakah user dengan email ini sudah ada
+                user = await UserModel.findOne({ email: googleUser.email });
+
+                if (user) {
+                    // Link Google account ke user yang sudah ada
+                    user.googleId = googleUser.id;
+                    if (googleUser.picture) {
+                        user.profilePicture = googleUser.picture;
+                    }
+                    await user.save();
+                } else {
+                    // Buat user baru
+                    const randomUsername = getId("user", 8);
+                    const randomPassword = getId("password", 12);
+
+                    user = await UserModel.create({
+                        fullname: googleUser.name || "Google User",
+                        username: randomUsername,
+                        email: googleUser.email,
+                        password: randomPassword, // Akan dienkripsi oleh pre-save middleware
+                        googleId: googleUser.id,
+                        profilePicture: googleUser.picture || "user.jpg",
+                    });
+                }
+            }
+
+            // Generate token
             const token = generateToken({
                 id: user._id,
                 role: user.role,
             });
-            response.success(res, { token, user }, "User logged in successfully");
+
+            // Redirect ke frontend dengan token atau kirim JSON
+            response.success(res, { token, user }, "Google authentication successful");
         } catch (error) {
-            response.error(res, error, "Authentication error");
+            console.error("Google auth error:", error);
+            response.error(res, error, "Authentication failed");
         }
     },
 };

@@ -16,16 +16,38 @@ router.get("/auth/me", authMiddleware, authController.me);
 router.get("/auth/google", authController.googleAuthUrl);
 router.get("/auth/google/callback", authController.googleCallback);
 
-router.post("/media/upload-single", [authMiddleware, aclMiddleware([ROLES.ADMIN]), mediaMiddleware.single("file")], mediaController.single);
+router.post(
+    "/media/upload-single",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN]), mediaMiddleware.single("file")],
+    mediaController.single,
+);
 router.post(
     "/media/upload-multiple",
     [authMiddleware, aclMiddleware([ROLES.ADMIN]), mediaMiddleware.multiple("files")],
-    mediaController.multiple
+    mediaController.multiple,
 );
-router.delete("/media/remove", [authMiddleware, aclMiddleware([ROLES.ADMIN])], mediaController.remove);
+router.delete(
+    "/media/remove",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    mediaController.remove,
+);
 
-router.post("/destinations", [authMiddleware, aclMiddleware([ROLES.ADMIN])], destinationController.create);
+router.post(
+    "/destinations",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    destinationController.create,
+);
 router.get("/destinations", destinationController.findAll);
 router.get("/destinations/:id", destinationController.findOne);
+router.put(
+    "/destinations/:id",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    destinationController.update,
+);
+router.delete(
+    "/destinations/:id",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    destinationController.remove,
+);
 
 export default router;

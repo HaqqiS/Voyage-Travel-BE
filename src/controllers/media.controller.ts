@@ -14,7 +14,8 @@ export default {
         }
     },
     async multiple(req: IReqUser, res: Response) {
-        if (!req.files || req.files.length === 0) return response.error(res, null, "File not found");
+        if (!req.files || req.files.length === 0)
+            return response.error(res, null, "File not found");
         try {
             const result = await uploader.uploadMultiple(req.files as Express.Multer.File[]);
             return response.success(res, result, "Files uploaded successfully");

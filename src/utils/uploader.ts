@@ -40,8 +40,15 @@ export default {
         return results;
     },
     async remove(fileUrl: string) {
+        if (!fileUrl) {
+            console.warn("No file URL provided for removal.");
+            return;
+        }
         const publicId = getPublicIdFromFileUrl(fileUrl);
-        console.log(publicId);
+        if (!publicId) {
+            console.warn("Invalid public ID extracted from file URL:", fileUrl);
+            return;
+        }
 
         const result = await cloudinary.uploader.destroy(publicId);
         return result;

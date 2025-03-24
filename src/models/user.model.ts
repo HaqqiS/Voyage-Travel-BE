@@ -10,11 +10,15 @@ export const USERS_MODEL_NAME = "Users";
 const validatePassword = Yup.string()
     .required()
     .min(8)
-    .test("at-least contain one uppercase", "Password must contain at least one uppercase", (value) => {
-        if (!value) return false;
-        const regex = /^(?=.*[A-Z])/;
-        return regex.test(value);
-    })
+    .test(
+        "at-least contain one uppercase",
+        "Password must contain at least one uppercase",
+        (value) => {
+            if (!value) return false;
+            const regex = /^(?=.*[A-Z])/;
+            return regex.test(value);
+        },
+    )
     .test("at-least contain one number", "Password must contain at least one number", (value) => {
         if (!value) return false;
         const regex = /^(?=.*[0-9])/;
@@ -90,7 +94,7 @@ const UserSchema = new Schema<User>(
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 UserSchema.pre("save", function (next) {

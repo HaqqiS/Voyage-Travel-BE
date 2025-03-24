@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "beckend for voyage travel",
     "main": "app.ts",
+    "type": "module",
     "scripts": {
         "lint": "eslint --ext .ts src/",
         "lint:fix": "eslint --ext .ts src/ --fix",

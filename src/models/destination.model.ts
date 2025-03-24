@@ -31,6 +31,7 @@ const destinationSchema = new Schema<TypeDestination>(
         images: {
             type: [Schema.Types.String],
             required: true,
+            default: [],
         },
         attractions: {
             type: [Schema.Types.String],
@@ -39,7 +40,7 @@ const destinationSchema = new Schema<TypeDestination>(
     },
     {
         timestamps: true,
-    }
+    },
 );
 
 const DestinationModel = mongoose.model(DESTINATION_MODEL_NAME, destinationSchema);

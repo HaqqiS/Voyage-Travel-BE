@@ -3,6 +3,7 @@ import { IPaginationQuery, IReqUser } from "../utils/interfaces";
 import response from "../utils/response";
 import DestinationModel, { destinationDTO } from "../models/destination.model";
 import { isValidObjectId } from "mongoose";
+import uploader from "../utils/uploader";
 
 export default {
     async create(req: IReqUser, res: Response) {
@@ -41,7 +42,7 @@ export default {
                 res,
                 result,
                 { total: count, totalPages: Math.ceil(count / limit), current: page },
-                "Destinations retrieved successfully"
+                "Destinations retrieved successfully",
             );
         } catch (error) {
             response.error(res, error, "Error findAll destinations");
@@ -63,6 +64,56 @@ export default {
             response.success(res, result, "Destination retrieved successfully");
         } catch (error) {
             response.error(res, error, "Error findOne destination");
+        }
+    },
+
+    async update(req: IReqUser, res: Response) {
+        try {
+            const { id } = req.params;
+            if (!isValidObjectId(id)) {
+                response.notFound(res, "Destination not found");
+            }
+
+            const result = await DestinationModel.findByIdAndUpdate(id, req.body, { new: true });
+
+            if (!result) response.notFound(res, "Destination not found");
+
+            response.success(res, result, "Destination updated successfully");
+        } catch (error) {
+            response.error(res, error, "Error updating destination");
+        }
+    },
+
+    async remove(req: IReqUser, res: Response) {
+        try {
+            const { id } = req.params;
+            if (!isValidObjectId(id)) {
+                response.notFound(res, "Destination not found");
+            }
+
+            const result = await DestinationModel.findByIdAndDelete(id, { new: true });
+
+            if (!result) {
+                response.notFound(res, "Destination not found");
+            }
+            // if (result) {
+            //     for (const image of result.images) {
+            //         // Remove image from cloudinary
+            //         await uploader.remove(image as string);
+            //     }
+            // }
+
+            if (Array.isArray(result?.images) && result.images.length > 0) {
+                for (const image of result.images) {
+                    if (typeof image === "string") {
+                        await uploader.remove(image);
+                    }
+                }
+            }
+
+            response.success(res, result, "Destination deleted successfully");
+        } catch (error) {
+            response.error(res, error, "Error deleting destination");
         }
     },
 };

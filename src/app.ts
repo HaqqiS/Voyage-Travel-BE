@@ -6,6 +6,7 @@ import { PORT } from "./utils/environment";
 import router from "./routes/api";
 import response from "./utils/response";
 import errorMiddleware from "./middlewares/error.middleware";
+import docs from "./docs/route";
 
 async function main() {
     try {
@@ -24,6 +25,8 @@ async function main() {
         });
 
         app.use("/api", router);
+        // Setup Swagger documentation
+        docs(app);
 
         app.use(errorMiddleware.serverRoute());
         app.use(errorMiddleware.serverError());

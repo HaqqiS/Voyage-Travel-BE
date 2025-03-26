@@ -1,20 +1,36 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 import * as Yup from "yup";
 
 const Schema = mongoose.Schema;
 export const DESTINATION_MODEL_NAME = "Destination";
+
+export const attractionDTO = Yup.object({
+    _id: Yup.string(),
+    name: Yup.string().required(),
+})
 
 export const destinationDTO = Yup.object({
     name: Yup.string().required(),
     country: Yup.string().required(),
     description: Yup.string().required(),
     images: Yup.array().of(Yup.string()).required(),
-    attractions: Yup.array().of(Yup.string()).required(),
+    attractions: Yup.array().of(attractionDTO).required(),
 });
 
 export type TypeDestination = Yup.InferType<typeof destinationDTO>;
 
-const destinationSchema = new Schema<TypeDestination>(
+export interface Destination extends Omit<TypeDestination, "_id">{
+    _id: ObjectId
+}
+
+const attractionSchema = new Schema({
+    name: {
+        type: Schema.Types.String,
+        required: true,
+    }
+});
+
+const destinationSchema = new Schema<Destination>(
     {
         name: {
             type: Schema.Types.String,
@@ -34,8 +50,9 @@ const destinationSchema = new Schema<TypeDestination>(
             default: [],
         },
         attractions: {
-            type: [Schema.Types.String],
+            type: [attractionSchema],
             required: true,
+            default: [],
         },
     },
     {

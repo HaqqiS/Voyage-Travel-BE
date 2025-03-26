@@ -6,6 +6,7 @@ import { ROLES } from "../utils/constant";
 import destinationController from "../controllers/destination.controller";
 import mediaMiddleware from "../middlewares/media.middleware";
 import mediaController from "../controllers/media.controller";
+import tourController from "../controllers/tour.controller";
 
 const router = express.Router();
 
@@ -173,6 +174,12 @@ router.get(
     /*
     #swagger.tags = ['Destinations']
     #swagger.summary = 'Get a destination by ID'
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Destination ID"
+    }
     */
 );
 router.put(
@@ -185,6 +192,12 @@ router.put(
     #swagger.security = [{
         "bearerAuth": {}
     }]
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Destination ID"
+    }
     #swagger.requestBody = {
         required: true,
         schema: {
@@ -203,7 +216,137 @@ router.delete(
     #swagger.security = [{
         "bearerAuth": {}
     }]
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Destination ID"
+    }
     */
 );
+
+router.post("/tours", [authMiddleware, aclMiddleware([ROLES.ADMIN])], tourController.create
+    /*
+    #swagger.tags = ['Tours']
+    #swagger.summary = 'Create a new tour'
+    #swagger.security = [{
+        "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+        required: true,
+        schema: {
+            $ref: "#/components/schemas/TourRequest"
+        }
+    }
+    */
+);
+router.get("/tours", tourController.findAll
+    /*
+    #swagger.tags = ['Tours']
+    #swagger.summary = 'Get all tours'
+    #swagger.parameters['limit'] = {
+        in: 'query',
+        type: 'number',
+        default: 10
+    }
+    #swagger.parameters['page'] = {
+        in: 'query',
+        type: 'number',
+        default: 1
+    }
+    #swagger.parameters['startDate'] = {
+        in: 'query',
+        type: 'string',
+        format: 'date',
+        description: "Filter by available tour date (YYYY-MM-DD)"
+    }
+    #swagger.parameters['duration'] = {
+        in: 'query',
+        type: 'number',
+        description: "Filter by tour duration (days)"
+    }
+    #swagger.parameters['minPrice'] = {
+        in: 'query',
+        type: 'number',
+        description: "Minimum price for adult"
+    }
+    #swagger.parameters['maxPrice'] = {
+        in: 'query',
+        type: 'number',
+        description: "Maximum price for adult"
+    }
+    #swagger.parameters['destination'] = {
+        in: 'query',
+        type: 'string',
+        description: "Filter by destination ID"
+    }
+    #swagger.parameters['search'] = {
+        in: 'query',
+        type: 'string',
+        description: "Search by tour title"
+    }
+    */
+);
+router.get("/tours/:id", tourController.findOne
+    /*
+    #swagger.tags = ['Tours']
+    #swagger.summary = 'Get a tour by ID'
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Tour ID"
+    }
+    */
+);
+router.get("/tours/:slug/slug", tourController.findOneBySlug
+    /*
+    #swagger.tags = ['Tours']
+    #swagger.summary = 'Get a tour by slug'
+    #swagger.parameters['slug'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Tour slug"
+    }
+    */
+);
+router.put("/tours/:id", [authMiddleware, aclMiddleware([ROLES.ADMIN])], tourController.update
+    /*
+    #swagger.tags = ['Tours']
+    #swagger.summary = 'Update a tour'
+    #swagger.security = [{
+        "bearerAuth": {}
+    }]
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Tour ID"
+    }
+    #swagger.requestBody = {
+        required: true,
+        schema: {
+            $ref: "#/components/schemas/TourRequest"
+        }
+    }
+    */
+);
+router.delete("/tours/:id", [authMiddleware, aclMiddleware([ROLES.ADMIN])], tourController.delete
+    /*
+    #swagger.tags = ['Tours']
+    #swagger.summary = 'Delete a tour'
+    #swagger.security = [{
+        "bearerAuth": {}
+    }]
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Tour ID"
+    }
+    */
+);
+
 
 export default router;

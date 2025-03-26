@@ -7,7 +7,7 @@ export const DESTINATION_MODEL_NAME = "Destination";
 export const attractionDTO = Yup.object({
     _id: Yup.string(),
     name: Yup.string().required(),
-})
+});
 
 export const destinationDTO = Yup.object({
     name: Yup.string().required(),
@@ -19,15 +19,15 @@ export const destinationDTO = Yup.object({
 
 export type TypeDestination = Yup.InferType<typeof destinationDTO>;
 
-export interface Destination extends Omit<TypeDestination, "_id">{
-    _id: ObjectId
+export interface Destination extends Omit<TypeDestination, "_id"> {
+    _id: ObjectId;
 }
 
 const attractionSchema = new Schema({
     name: {
         type: Schema.Types.String,
         required: true,
-    }
+    },
 });
 
 const destinationSchema = new Schema<Destination>(

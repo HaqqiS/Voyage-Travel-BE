@@ -21,7 +21,7 @@ export default {
 
     error(res: Response, error: unknown, message: string) {
         if (error instanceof Yup.ValidationError) {
-            res.status(400).json({
+            return res.status(400).json({
                 meta: {
                     status: 400,
                     message,
@@ -33,7 +33,7 @@ export default {
         }
 
         if (error instanceof mongoose.Error) {
-            res.status(500).json({
+            return res.status(500).json({
                 meta: {
                     status: 500,
                     message: error.message,
@@ -44,7 +44,7 @@ export default {
 
         if ((error as any)?.code) {
             const _err = error as any;
-            res.status(500).json({
+            return res.status(500).json({
                 meta: {
                     status: 500,
                     message: _err?.errorResponse?.errmsg || "server error",

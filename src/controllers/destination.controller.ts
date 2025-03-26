@@ -53,12 +53,12 @@ export default {
         try {
             const { id } = req.params;
             if (!isValidObjectId(id)) {
-                response.notFound(res, "Destination not found");
+                return response.notFound(res, "Destination not found");
             }
             const result = await DestinationModel.findById(id);
 
             if (!result) {
-                response.notFound(res, "Destination not found");
+                return response.notFound(res, "Destination not found");
             }
 
             response.success(res, result, "Destination retrieved successfully");
@@ -71,12 +71,12 @@ export default {
         try {
             const { id } = req.params;
             if (!isValidObjectId(id)) {
-                response.notFound(res, "Destination not found");
+                return response.notFound(res, "Destination not found");
             }
 
             const result = await DestinationModel.findByIdAndUpdate(id, req.body, { new: true });
 
-            if (!result) response.notFound(res, "Destination not found");
+            if (!result) return response.notFound(res, "Destination not found");
 
             response.success(res, result, "Destination updated successfully");
         } catch (error) {
@@ -88,20 +88,14 @@ export default {
         try {
             const { id } = req.params;
             if (!isValidObjectId(id)) {
-                response.notFound(res, "Destination not found");
+                return response.notFound(res, "Destination not found");
             }
 
             const result = await DestinationModel.findByIdAndDelete(id, { new: true });
 
             if (!result) {
-                response.notFound(res, "Destination not found");
+                return response.notFound(res, "Destination not found");
             }
-            // if (result) {
-            //     for (const image of result.images) {
-            //         // Remove image from cloudinary
-            //         await uploader.remove(image as string);
-            //     }
-            // }
 
             if (Array.isArray(result?.images) && result.images.length > 0) {
                 for (const image of result.images) {

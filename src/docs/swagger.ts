@@ -25,7 +25,7 @@ const doc = {
         },
         schemas: {
             RegisterRequest: {
-                fullName: "Haqqi Sukmara Ishfahani",
+                fullname: "Haqqi Sukmara Ishfahani",
                 username: "HqiSkmr",
                 email: "hqi@mail.com",
                 password: "H12345678",
@@ -81,6 +81,11 @@ const doc = {
                     adult: 2000000,
                     child: 1500000,
                 },
+            },
+            BannerRequest: {
+                title: "Banner 1",
+                image: "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1742823904/aiztnavnm1bbavwuxwkf.jpg",
+                isShow: true,
             },
         },
     },

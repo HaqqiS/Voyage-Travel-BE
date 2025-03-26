@@ -75,13 +75,13 @@ export default {
             const { code } = req.query;
 
             if (!code || typeof code !== "string") {
-                return response.error(res, null, "Authorization code is missing");
+                response.error(res, null, "Authorization code is missing");
             }
 
             const googleUser = (await getGoogleUserInfo(code as string)) as GoogleUserInfo;
 
             if (!googleUser.email || !googleUser.id) {
-                return response.error(res, null, "Failed to get user info from Google");
+                response.error(res, null, "Failed to get user info from Google");
             }
 
             // Cek apakah user dengan googleId ini sudah ada
@@ -123,7 +123,7 @@ export default {
             // Redirect ke frontend dengan token atau kirim JSON
             response.success(res, { token, user }, "Google authentication successful");
         } catch (error) {
-            console.error("Google auth error:", error);
+            // console.error("Google auth error:", error);
             response.error(res, error, "Authentication failed");
         }
     },

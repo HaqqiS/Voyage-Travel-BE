@@ -7,6 +7,7 @@ import destinationController from "../controllers/destination.controller";
 import mediaMiddleware from "../middlewares/media.middleware";
 import mediaController from "../controllers/media.controller";
 import tourController from "../controllers/tour.controller";
+import bannerController from "../controllers/banner.controller";
 
 const router = express.Router();
 
@@ -225,7 +226,10 @@ router.delete(
     */
 );
 
-router.post("/tours", [authMiddleware, aclMiddleware([ROLES.ADMIN])], tourController.create
+router.post(
+    "/tours",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    tourController.create,
     /*
     #swagger.tags = ['Tours']
     #swagger.summary = 'Create a new tour'
@@ -240,7 +244,9 @@ router.post("/tours", [authMiddleware, aclMiddleware([ROLES.ADMIN])], tourContro
     }
     */
 );
-router.get("/tours", tourController.findAll
+router.get(
+    "/tours",
+    tourController.findAll,
     /*
     #swagger.tags = ['Tours']
     #swagger.summary = 'Get all tours'
@@ -287,7 +293,9 @@ router.get("/tours", tourController.findAll
     }
     */
 );
-router.get("/tours/:id", tourController.findOne
+router.get(
+    "/tours/:id",
+    tourController.findOne,
     /*
     #swagger.tags = ['Tours']
     #swagger.summary = 'Get a tour by ID'
@@ -299,7 +307,9 @@ router.get("/tours/:id", tourController.findOne
     }
     */
 );
-router.get("/tours/:slug/slug", tourController.findOneBySlug
+router.get(
+    "/tours/:slug/slug",
+    tourController.findOneBySlug,
     /*
     #swagger.tags = ['Tours']
     #swagger.summary = 'Get a tour by slug'
@@ -311,7 +321,10 @@ router.get("/tours/:slug/slug", tourController.findOneBySlug
     }
     */
 );
-router.put("/tours/:id", [authMiddleware, aclMiddleware([ROLES.ADMIN])], tourController.update
+router.put(
+    "/tours/:id",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    tourController.update,
     /*
     #swagger.tags = ['Tours']
     #swagger.summary = 'Update a tour'
@@ -332,7 +345,10 @@ router.put("/tours/:id", [authMiddleware, aclMiddleware([ROLES.ADMIN])], tourCon
     }
     */
 );
-router.delete("/tours/:id", [authMiddleware, aclMiddleware([ROLES.ADMIN])], tourController.delete
+router.delete(
+    "/tours/:id",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    tourController.delete,
     /*
     #swagger.tags = ['Tours']
     #swagger.summary = 'Delete a tour'
@@ -348,5 +364,91 @@ router.delete("/tours/:id", [authMiddleware, aclMiddleware([ROLES.ADMIN])], tour
     */
 );
 
+router.post(
+    "/banners",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    bannerController.create,
+    /*
+    #swagger.tags = ['Banners']
+    #swagger.summary = 'Create a new banner'
+    #swagger.security = [{
+        "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+        required: true,
+        schema: {
+            $ref: "#/components/schemas/BannerRequest"
+        }
+    }
+    */
+);
+router.get(
+    "/banners",
+    bannerController.findAll,
+    /*
+    #swagger.tags = ['Banners']
+    #swagger.summary = 'Get all banners'
+    #swagger.parameters['isShow'] = {
+        in: 'query',
+        type: 'boolean'
+    }
+    */
+);
+router.get(
+    "/banners/:id",
+    bannerController.findOne,
+    /*
+    #swagger.tags = ['Banners']
+    #swagger.summary = 'Get a banner by ID'
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Banner ID"
+    }
+    */
+);
+router.put(
+    "/banners/:id",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    bannerController.update,
+    /*
+    #swagger.tags = ['Banners']
+    #swagger.summary = 'Update a banner'
+    #swagger.security = [{
+        "bearerAuth": {}
+    }]
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Banner ID"
+    }
+    #swagger.requestBody = {
+        required: true,
+        schema: {
+            $ref: "#/components/schemas/BannerRequest"
+        }
+    }
+    */
+);
+router.delete(
+    "/banners/:id",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    bannerController.delete,
+    /*
+    #swagger.tags = ['Banners']
+    #swagger.summary = 'Delete a banner'
+    #swagger.security = [{
+        "bearerAuth": {}
+    }]
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Banner ID"
+    }
+    */
+);
 
 export default router;

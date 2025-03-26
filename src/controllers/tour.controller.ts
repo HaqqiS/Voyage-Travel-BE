@@ -1,13 +1,13 @@
 import { Response } from "express";
 import { IReqUser } from "../utils/interfaces";
 import response from "../utils/response";
-import TourModel, { TourDTO, TypeTour } from "../models/tour.model";
+import TourModel, { tourDTO, TypeTour } from "../models/tour.model";
 import { FilterQuery, isValidObjectId } from "mongoose";
 
 export default {
     async create(req: IReqUser, res: Response) {
         try {
-            await TourDTO.validate(req.body);
+            await tourDTO.validate(req.body);
             const result = await TourModel.create(req.body);
             response.success(res, result, "Tour created successfully");
         } catch (error) {
@@ -17,7 +17,16 @@ export default {
 
     async findAll(req: IReqUser, res: Response) {
         try {
-            const { limit = 10, page = 1, startDate, duration, minPrice, maxPrice, destination, search } = req.query;
+            const {
+                limit = 10,
+                page = 1,
+                startDate,
+                duration,
+                minPrice,
+                maxPrice,
+                destination,
+                search,
+            } = req.query;
 
             const buildQuery = (filter: any): FilterQuery<TypeTour> => {
                 let query: FilterQuery<TypeTour> = {};
@@ -27,7 +36,7 @@ export default {
                     const date = new Date(startDate as string);
                     query.$or = [
                         { "availability.fixedDates": date },
-                        { "availability.availableDays": { $exists: true, $ne: [] } } // Tour yang berulang
+                        { "availability.availableDays": { $exists: true, $ne: [] } }, // Tour yang berulang
                     ];
                 }
 
@@ -70,7 +79,7 @@ export default {
                     total: count,
                     totalPages: Math.ceil(count / +limit),
                 },
-                "Tours found successfully"
+                "Tours found successfully",
             );
         } catch (error) {
             response.error(res, error, "Failed to fetch tours");
@@ -105,7 +114,7 @@ export default {
                 return response.notFound(res, "Invalid tour ID");
             }
 
-            await TourDTO.validate(req.body);
+            // await tourDTO.validate(req.body);
             const result = await TourModel.findByIdAndUpdate(id, req.body, { new: true });
 
             if (!result) return response.notFound(res, "Tour not found");
@@ -152,5 +161,5 @@ export default {
         } catch (error) {
             response.error(res, error, "Failed to fetch tour");
         }
-    }
+    },
 };

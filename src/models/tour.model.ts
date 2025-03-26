@@ -48,7 +48,7 @@ export const availabilityDTO = Yup.object({
 });
 
 // Schema utama Tour
-export const TourDTO = Yup.object({
+export const tourDTO = Yup.object({
     title: Yup.string().required(),
     slug: Yup.string(),
     destination: Yup.string().required(),
@@ -64,7 +64,7 @@ export const TourDTO = Yup.object({
     price: priceDTO.required(),
 });
 
-export type TypeTour = Yup.InferType<typeof TourDTO>;
+export type TypeTour = Yup.InferType<typeof tourDTO>;
 
 export interface Tour extends Omit<TypeTour, "destination"> {
     destination: ObjectId;
@@ -83,7 +83,7 @@ const itinerarySchema = new Schema(
 // Schema Mongoose untuk harga
 const priceSchema = new Schema(
     {
-        adult: { type: Number, required: true, min: 0 },    
+        adult: { type: Number, required: true, min: 0 },
         child: { type: Number, required: true, min: 0 },
     },
     { _id: false },

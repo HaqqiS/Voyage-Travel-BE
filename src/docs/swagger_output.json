@@ -1,836 +1,973 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "version": "v0.0.1",
-    "title": "Dokumentasi API Voyage Travel",
-    "description": "Dokumentasi API Voyage Travel"
-  },
-  "servers": [
-    {
-      "url": "http://localhost:3000/api",
-      "description": "Local server"
+    "openapi": "3.0.0",
+    "info": {
+        "version": "v0.0.1",
+        "title": "Dokumentasi API Voyage Travel",
+        "description": "Dokumentasi API Voyage Travel"
     },
-    {
-      "url": "https://back-end-acara-sand.vercel.app/api  ",
-      "description": "Deploy server"
-    }
-  ],
-  "paths": {
-    "/auth/register": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Register a new user",
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
+    "servers": [
+        {
+            "url": "http://localhost:3000/api",
+            "description": "Local server"
         },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterRequest"
-              }
-            }
-          }
+        {
+            "url": "https://back-end-acara-sand.vercel.app/api  ",
+            "description": "Deploy server"
         }
-      }
-    },
-    "/auth/login": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Login user",
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/me": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Get current user information",
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
-      }
-    },
-    "/auth/google": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Get Google authentication URL",
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/auth/google/callback": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Get Google authentication callback",
-        "description": "",
-        "parameters": [
-          {
-            "name": "code",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/media/upload-single": {
-      "post": {
-        "tags": [
-          "Media"
-        ],
-        "summary": "Upload a single file",
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/media/upload-multiple": {
-      "post": {
-        "tags": [
-          "Media"
-        ],
-        "summary": "Upload multiple files",
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "files": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "format": "binary"
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Register a new user",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
                     }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/media/remove": {
-      "delete": {
-        "tags": [
-          "Media"
-        ],
-        "summary": "Remove media",
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RemoveMediaRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/RemoveMediaRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/destinations": {
-      "post": {
-        "tags": [
-          "Destinations"
-        ],
-        "summary": "Create a new destination",
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DestinationRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/DestinationRequest"
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Destinations"
-        ],
-        "summary": "Get all destinations",
-        "description": "",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/destinations/{id}": {
-      "get": {
-        "tags": [
-          "Destinations"
-        ],
-        "summary": "Get a destination by ID",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Destination ID"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Destinations"
-        ],
-        "summary": "Update a destination",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Destination ID"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DestinationRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/DestinationRequest"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Destinations"
-        ],
-        "summary": "Delete a destination",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Destination ID"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
-      }
-    },
-    "/tours": {
-      "post": {
-        "tags": [
-          "Tours"
-        ],
-        "summary": "Create a new tour",
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TourRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/TourRequest"
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Tours"
-        ],
-        "summary": "Get all tours",
-        "description": "",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "default": 10,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "default": 1,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "startDate",
-            "in": "query",
-            "format": "date",
-            "description": "Filter by available tour date (YYYY-MM-DD)",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "duration",
-            "in": "query",
-            "description": "Filter by tour duration (days)",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "minPrice",
-            "in": "query",
-            "description": "Minimum price for adult",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "maxPrice",
-            "in": "query",
-            "description": "Maximum price for adult",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "destination",
-            "in": "query",
-            "description": "Filter by destination ID",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "description": "Search by tour title",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/tours/{id}": {
-      "get": {
-        "tags": [
-          "Tours"
-        ],
-        "summary": "Get a tour by ID",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Tour ID"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Tours"
-        ],
-        "summary": "Update a tour",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Tour ID"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TourRequest"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/TourRequest"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Tours"
-        ],
-        "summary": "Delete a tour",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Tour ID"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": {}
-          }
-        ]
-      }
-    },
-    "/tours/{slug}/slug": {
-      "get": {
-        "tags": [
-          "Tours"
-        ],
-        "summary": "Get a tour by slug",
-        "description": "",
-        "parameters": [
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Tour slug"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      }
-    },
-    "schemas": {
-      "RegisterRequest": {
-        "type": "object",
-        "properties": {
-          "fullName": {
-            "type": "string",
-            "example": "Haqqi Sukmara Ishfahani"
-          },
-          "username": {
-            "type": "string",
-            "example": "HqiSkmr"
-          },
-          "email": {
-            "type": "string",
-            "example": "hqi@mail.com"
-          },
-          "password": {
-            "type": "string",
-            "example": "H12345678"
-          },
-          "confirmPassword": {
-            "type": "string",
-            "example": "H12345678"
-          }
-        },
-        "xml": {
-          "name": "RegisterRequest"
-        }
-      },
-      "LoginRequest": {
-        "type": "object",
-        "properties": {
-          "identifier": {
-            "type": "string",
-            "example": "hqi@mail.com/HqiSkmr"
-          },
-          "password": {
-            "type": "string",
-            "example": "H12345678"
-          }
-        },
-        "xml": {
-          "name": "LoginRequest"
-        }
-      },
-      "RemoveMediaRequest": {
-        "type": "object",
-        "properties": {
-          "fileUrl": {
-            "type": "string",
-            "example": "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1740468415/a9njgyhcqpm1zlbqu2ck.jpg"
-          }
-        },
-        "xml": {
-          "name": "RemoveMediaRequest"
-        }
-      },
-      "DestinationRequest": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Raja Ampat"
-          },
-          "country": {
-            "type": "string",
-            "example": "Indonesia"
-          },
-          "description": {
-            "type": "string",
-            "example": "Destiansi ke raja ampat"
-          },
-          "images": {
-            "type": "array",
-            "example": [
-              "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1742823904/aiztnavnm1bbavwuxwkf.jpg",
-              "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1742823903/bpbho5y1kfiwdj83jo2s.jpg"
-            ],
-            "items": {
-              "type": "string"
-            }
-          },
-          "attractions": {
-            "type": "array",
-            "example": [
-              "Pantai Batu Bolong",
-              "Pura Besakih"
-            ],
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "xml": {
-          "name": "DestinationRequest"
-        }
-      },
-      "TourRequest": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string",
-            "example": "Tour to Raja Ampat"
-          },
-          "slug": {
-            "type": "string",
-            "example": "tour-to-raja-ampat"
-          },
-          "destination": {
-            "type": "string",
-            "example": "65a2d1f7d1e42b001e8b5f60"
-          },
-          "description": {
-            "type": "string",
-            "example": "Explore the breathtaking beauty of Raja Ampat with this exclusive tour package."
-          },
-          "itinerary": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "day": {
-                  "type": "number",
-                  "example": 2
                 },
-                "detail": {
-                  "type": "string",
-                  "example": "Day 2: Snorkeling at famous dive sites and island hopping."
-                },
-                "image": {
-                  "type": "string",
-                  "example": "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1742823903/bpbho5y1kfiwdj83jo2s.jpg"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
                 }
-              }
             }
-          },
-          "maxParticipant": {
-            "type": "number",
-            "example": 10
-          },
-          "isRecurring": {
-            "type": "boolean",
-            "example": false
-          },
-          "duration": {
-            "type": "number",
-            "example": 3
-          },
-          "availability": {
-            "type": "object",
-            "properties": {
-              "availableDays": {
-                "type": "array",
-                "example": [],
-                "items": {}
-              },
-              "fixedDates": {
-                "type": "array",
-                "example": [
-                  "2025-06-15",
-                  "2025-07-20",
-                  "2025-08-10"
+        },
+        "/auth/login": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Login user",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/me": {
+            "get": {
+                "tags": ["Auth"],
+                "summary": "Get current user information",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ]
+            }
+        },
+        "/auth/google": {
+            "get": {
+                "tags": ["Auth"],
+                "summary": "Get Google authentication URL",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/auth/google/callback": {
+            "get": {
+                "tags": ["Auth"],
+                "summary": "Get Google authentication callback",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
                 ],
-                "items": {
-                  "type": "string"
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
                 }
-              }
             }
-          },
-          "price": {
-            "type": "object",
-            "properties": {
-              "adult": {
-                "type": "number",
-                "example": 2000000
-              },
-              "child": {
-                "type": "number",
-                "example": 1500000
-              }
-            }
-          }
         },
-        "xml": {
-          "name": "TourRequest"
+        "/media/upload-single": {
+            "post": {
+                "tags": ["Media"],
+                "summary": "Upload a single file",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/media/upload-multiple": {
+            "post": {
+                "tags": ["Media"],
+                "summary": "Upload multiple files",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "files": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/media/remove": {
+            "delete": {
+                "tags": ["Media"],
+                "summary": "Remove media",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RemoveMediaRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RemoveMediaRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/destinations": {
+            "post": {
+                "tags": ["Destinations"],
+                "summary": "Create a new destination",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DestinationRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DestinationRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Destinations"],
+                "summary": "Get all destinations",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/destinations/{id}": {
+            "get": {
+                "tags": ["Destinations"],
+                "summary": "Get a destination by ID",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Destination ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Destinations"],
+                "summary": "Update a destination",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Destination ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DestinationRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DestinationRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Destinations"],
+                "summary": "Delete a destination",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Destination ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ]
+            }
+        },
+        "/tours": {
+            "post": {
+                "tags": ["Tours"],
+                "summary": "Create a new tour",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TourRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TourRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Tours"],
+                "summary": "Get all tours",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "default": 10,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "default": 1,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "format": "date",
+                        "description": "Filter by available tour date (YYYY-MM-DD)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "duration",
+                        "in": "query",
+                        "description": "Filter by tour duration (days)",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "minPrice",
+                        "in": "query",
+                        "description": "Minimum price for adult",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "maxPrice",
+                        "in": "query",
+                        "description": "Maximum price for adult",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "destination",
+                        "in": "query",
+                        "description": "Filter by destination ID",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by tour title",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/tours/{id}": {
+            "get": {
+                "tags": ["Tours"],
+                "summary": "Get a tour by ID",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Tour ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Tours"],
+                "summary": "Update a tour",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Tour ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TourRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TourRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Tours"],
+                "summary": "Delete a tour",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Tour ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ]
+            }
+        },
+        "/tours/{slug}/slug": {
+            "get": {
+                "tags": ["Tours"],
+                "summary": "Get a tour by slug",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Tour slug"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/banners": {
+            "post": {
+                "tags": ["Banners"],
+                "summary": "Create a new banner",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BannerRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BannerRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Banners"],
+                "summary": "Get all banners",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isShow",
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/banners/{id}": {
+            "get": {
+                "tags": ["Banners"],
+                "summary": "Get a banner by ID",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Banner ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Banners"],
+                "summary": "Update a banner",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Banner ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BannerRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BannerRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Banners"],
+                "summary": "Delete a banner",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Banner ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ]
+            }
         }
-      }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        },
+        "schemas": {
+            "RegisterRequest": {
+                "type": "object",
+                "properties": {
+                    "fullname": {
+                        "type": "string",
+                        "example": "Haqqi Sukmara Ishfahani"
+                    },
+                    "username": {
+                        "type": "string",
+                        "example": "HqiSkmr"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "hqi@mail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "H12345678"
+                    },
+                    "confirmPassword": {
+                        "type": "string",
+                        "example": "H12345678"
+                    }
+                },
+                "xml": {
+                    "name": "RegisterRequest"
+                }
+            },
+            "LoginRequest": {
+                "type": "object",
+                "properties": {
+                    "identifier": {
+                        "type": "string",
+                        "example": "hqi@mail.com/HqiSkmr"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "H12345678"
+                    }
+                },
+                "xml": {
+                    "name": "LoginRequest"
+                }
+            },
+            "RemoveMediaRequest": {
+                "type": "object",
+                "properties": {
+                    "fileUrl": {
+                        "type": "string",
+                        "example": "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1740468415/a9njgyhcqpm1zlbqu2ck.jpg"
+                    }
+                },
+                "xml": {
+                    "name": "RemoveMediaRequest"
+                }
+            },
+            "DestinationRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Raja Ampat"
+                    },
+                    "country": {
+                        "type": "string",
+                        "example": "Indonesia"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Destiansi ke raja ampat"
+                    },
+                    "images": {
+                        "type": "array",
+                        "example": [
+                            "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1742823904/aiztnavnm1bbavwuxwkf.jpg",
+                            "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1742823903/bpbho5y1kfiwdj83jo2s.jpg"
+                        ],
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "attractions": {
+                        "type": "array",
+                        "example": ["Pantai Batu Bolong", "Pura Besakih"],
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "xml": {
+                    "name": "DestinationRequest"
+                }
+            },
+            "TourRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Tour to Raja Ampat"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "tour-to-raja-ampat"
+                    },
+                    "destination": {
+                        "type": "string",
+                        "example": "65a2d1f7d1e42b001e8b5f60"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Explore the breathtaking beauty of Raja Ampat with this exclusive tour package."
+                    },
+                    "itinerary": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "day": {
+                                    "type": "number",
+                                    "example": 2
+                                },
+                                "detail": {
+                                    "type": "string",
+                                    "example": "Day 2: Snorkeling at famous dive sites and island hopping."
+                                },
+                                "image": {
+                                    "type": "string",
+                                    "example": "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1742823903/bpbho5y1kfiwdj83jo2s.jpg"
+                                }
+                            }
+                        }
+                    },
+                    "maxParticipant": {
+                        "type": "number",
+                        "example": 10
+                    },
+                    "isRecurring": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "duration": {
+                        "type": "number",
+                        "example": 3
+                    },
+                    "availability": {
+                        "type": "object",
+                        "properties": {
+                            "availableDays": {
+                                "type": "array",
+                                "example": [],
+                                "items": {}
+                            },
+                            "fixedDates": {
+                                "type": "array",
+                                "example": ["2025-06-15", "2025-07-20", "2025-08-10"],
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "price": {
+                        "type": "object",
+                        "properties": {
+                            "adult": {
+                                "type": "number",
+                                "example": 2000000
+                            },
+                            "child": {
+                                "type": "number",
+                                "example": 1500000
+                            }
+                        }
+                    }
+                },
+                "xml": {
+                    "name": "TourRequest"
+                }
+            },
+            "BannerRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Banner 1"
+                    },
+                    "image": {
+                        "type": "string",
+                        "example": "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1742823904/aiztnavnm1bbavwuxwkf.jpg"
+                    },
+                    "isShow": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "xml": {
+                    "name": "BannerRequest"
+                }
+            }
+        }
     }
-  }
 }

@@ -58,7 +58,7 @@ const destinationSchema = new Schema<Destination>(
     {
         timestamps: true,
     },
-);
+).index({ name: "text", country: "text" });
 
 const DestinationModel = mongoose.model(DESTINATION_MODEL_NAME, destinationSchema);
 

@@ -8,6 +8,7 @@ import mediaMiddleware from "../middlewares/media.middleware";
 import mediaController from "../controllers/media.controller";
 import tourController from "../controllers/tour.controller";
 import bannerController from "../controllers/banner.controller";
+import participantController from "../controllers/participant.controller";
 
 const router = express.Router();
 
@@ -167,6 +168,11 @@ router.get(
     /*
     #swagger.tags = ['Destinations']
     #swagger.summary = 'Get all destinations'
+    #swagger.parameters['search'] = {
+        in: 'query',
+        type: 'string',
+        description: "Search by destination name"
+    }
     */
 );
 router.get(
@@ -447,6 +453,108 @@ router.delete(
         required: true,
         type: 'string',
         description: "Banner ID"
+    }
+    */
+);
+
+router.post(
+    "/participants",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    participantController.create,
+    /*
+    #swagger.tags = ['Participants']
+    #swagger.summary = 'Create a new participant'
+    #swagger.security = [{
+        "bearerAuth": {}
+    }]
+    #swagger.requestBody = {
+        required: true,
+        schema: {
+            $ref: "#/components/schemas/ParticipantRequest"
+        }
+    }
+    */
+);
+
+router.get(
+    "/participants",
+    participantController.findAll,
+    /*
+    #swagger.tags = ['Participants']
+    #swagger.summary = 'Get all participants'
+    #swagger.parameters['limit'] = {
+        in: 'query',
+        type: 'number',
+        default: 10
+    }
+    #swagger.parameters['page'] = {
+        in: 'query',
+        type: 'number',
+        default: 1
+    }
+    #swagger.parameters['search'] = {
+        in: 'query',
+        type: 'string',
+        description: "Search by participant name"
+    }
+    */
+);
+
+router.get(
+    "/participants/:id",
+    participantController.findOne,
+    /*
+    #swagger.tags = ['Participants']
+    #swagger.summary = 'Get a participant by ID'
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Participant ID"
+    }
+    */
+);
+
+router.put(
+    "/participants/:id",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    participantController.update,
+    /*
+    #swagger.tags = ['Participants']
+    #swagger.summary = 'Update a participant'
+    #swagger.security = [{
+        "bearerAuth": {}
+    }]
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Participant ID"
+    }
+    #swagger.requestBody = {
+        required: true,
+        schema: {
+            $ref: "#/components/schemas/ParticipantRequest"
+        }
+    }
+    */
+);
+
+router.delete(
+    "/participants/:id",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    participantController.remove,
+    /*
+    #swagger.tags = ['Participants']
+    #swagger.summary = 'Delete a participant'
+    #swagger.security = [{
+        "bearerAuth": {}
+    }]
+    #swagger.parameters['id'] = {
+        in: 'path',
+        required: true,
+        type: 'string',
+        description: "Participant ID"
     }
     */
 );

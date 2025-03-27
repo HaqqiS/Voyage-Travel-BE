@@ -32,7 +32,7 @@ const doc = {
                 confirmPassword: "H12345678",
             },
             LoginRequest: {
-                identifier: "hqi@mail.com/HqiSkmr",
+                identifier: "hqi@mail.com",
                 password: "H12345678",
             },
             RemoveMediaRequest: {
@@ -86,6 +86,21 @@ const doc = {
                 title: "Banner 1",
                 image: "https://res.cloudinary.com/dh1nhrlhu/image/upload/v1742823904/aiztnavnm1bbavwuxwkf.jpg",
                 isShow: true,
+            },
+            ParticipantRequest: {
+                createdBy: "67e41f7aa1bf048e97ce585c",
+                tour: "67e3d01c78c90ac3d9de8080",
+                person: [
+                    {
+                        name: "Haqqi Sukmara Ishfahani",
+                        type: "adult",
+                    },
+                    {
+                        name: "Haqqi Sukmara Ishfahani",
+                        type: "child",
+                    },
+                ],
+                totalPerson: 2,
             },
         },
     },

@@ -258,14 +258,14 @@
                 "description": "",
                 "parameters": [
                     {
-                        "name": "page",
+                        "name": "limit",
                         "in": "query",
                         "schema": {
                             "type": "string"
                         }
                     },
                     {
-                        "name": "limit",
+                        "name": "page",
                         "in": "query",
                         "schema": {
                             "type": "string"
@@ -274,6 +274,7 @@
                     {
                         "name": "search",
                         "in": "query",
+                        "description": "Search by destination name",
                         "schema": {
                             "type": "string"
                         }
@@ -759,6 +760,164 @@
                     }
                 ]
             }
+        },
+        "/participants": {
+            "post": {
+                "tags": ["Participants"],
+                "summary": "Create a new participant",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ParticipantRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ParticipantRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Participants"],
+                "summary": "Get all participants",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "default": 10,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "default": 1,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by participant name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/participants/{id}": {
+            "get": {
+                "tags": ["Participants"],
+                "summary": "Get a participant by ID",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Participant ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Participants"],
+                "summary": "Update a participant",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Participant ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ParticipantRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ParticipantRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Participants"],
+                "summary": "Delete a participant",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Participant ID"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": {}
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -802,7 +961,7 @@
                 "properties": {
                     "identifier": {
                         "type": "string",
-                        "example": "hqi@mail.com/HqiSkmr"
+                        "example": "hqi@mail.com"
                     },
                     "password": {
                         "type": "string",
@@ -966,6 +1125,42 @@
                 },
                 "xml": {
                     "name": "BannerRequest"
+                }
+            },
+            "ParticipantRequest": {
+                "type": "object",
+                "properties": {
+                    "createdBy": {
+                        "type": "string",
+                        "example": "67e41f7aa1bf048e97ce585c"
+                    },
+                    "tour": {
+                        "type": "string",
+                        "example": "67e3d01c78c90ac3d9de8080"
+                    },
+                    "person": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "Haqqi Sukmara Ishfahani"
+                                },
+                                "type": {
+                                    "type": "string",
+                                    "example": "child"
+                                }
+                            }
+                        }
+                    },
+                    "totalPerson": {
+                        "type": "number",
+                        "example": 2
+                    }
+                },
+                "xml": {
+                    "name": "ParticipantRequest"
                 }
             }
         }

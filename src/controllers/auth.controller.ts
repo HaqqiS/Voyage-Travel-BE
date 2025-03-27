@@ -100,8 +100,8 @@ export default {
                     await user.save();
                 } else {
                     // Buat user baru
-                    const randomUsername = getId("user", 8);
-                    const randomPassword = getId("password", 12);
+                    const randomUsername = await getId("user", 8);
+                    const randomPassword = await getId("password", 12);
 
                     user = await UserModel.create({
                         fullname: googleUser.name || "Google User",

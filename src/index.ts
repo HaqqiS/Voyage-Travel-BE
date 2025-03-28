@@ -1,22 +1,24 @@
 import express from "express";
-import cors from "cors";
 import bodyParser from "body-parser";
-import { PORT } from "./utils/environment";
+import cors from "cors";
 import db from "./utils/database";
+import { PORT } from "./utils/environment";
 import router from "./routes/api";
 import response from "./utils/response";
 import errorMiddleware from "./middlewares/error.middleware";
 import docs from "./docs/route";
 
-const app = express();
-
-async function main() {
+async function init() {
     try {
         const result = await db();
         console.log("Database connection: ", result);
 
+        const app = express();
+
         app.use(cors());
         app.use(bodyParser.json());
+
+        const port = PORT;
 
         app.get("/", (req, res) => {
             response.success(res, null, "Welcome to the API");
@@ -29,25 +31,12 @@ async function main() {
         app.use(errorMiddleware.serverRoute());
         app.use(errorMiddleware.serverError());
 
-        // Only start the server if we're not in production (not on Vercel)
-        if (process.env.NODE_ENV !== 'production') {
-            app.listen(PORT, () => {
-                console.log(`Server is running on http://localhost:${PORT}`);
-            });
-        }
-
-        return app;
+        app.listen(port, () => {
+            console.log(`Server is running on http://localhost:${port}`);
+        });
     } catch (error) {
-        console.error(error);
-        throw error;
+        console.log(error);
     }
 }
 
-// Run main() in development
-if (process.env.NODE_ENV !== 'production') {
-    main().catch(console.error);
-}
-
-// Export both the app and main function for Vercel
-export default app;
-export { main };
+init();

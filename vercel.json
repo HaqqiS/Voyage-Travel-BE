@@ -1,16 +1,22 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "src/index.ts",
-            "use": "@vercel/node",
-            "config": { "includeFiles": ["src/**"] }
-        }
+      {
+        "src": "index.ts",
+        "use": "@vercel/node"
+      }
     ],
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "src/index.ts"
-        }
-    ]
-}
+      {
+        "src": "/api-docs(.*)",
+        "dest": "index.ts"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "index.ts"
+      }
+    ],
+    "env": {
+      "BASE_URL": "https://voyage-travel-be.vercel.app/api"
+    }
+  }

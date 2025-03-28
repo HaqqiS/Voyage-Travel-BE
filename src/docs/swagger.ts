@@ -1,3 +1,4 @@
+import path from "path";
 import swaggerAutogen from "swagger-autogen";
 
 const doc = {
@@ -106,7 +107,8 @@ const doc = {
     },
 };
 
-const outputFile = "./swagger_output.json";
-const endpointsFiles = ["../routes/api.ts"];
+// Gunakan path absolut
+const outputFile = path.join(process.cwd(), "swagger_output.json");
+const endpointsFiles = [path.join(process.cwd(), "src/routes/api.ts")];
 
 swaggerAutogen({ openapi: "3.0.0" })(outputFile, endpointsFiles, doc);

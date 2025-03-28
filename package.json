@@ -35,10 +35,10 @@
         "nanoid": "^5.1.5",
         "swagger-autogen": "^2.23.7",
         "swagger-ui-express": "^5.0.1",
+        "@types/swagger-ui-express": "^4.1.8",
         "yup": "^1.6.1"
     },
     "devDependencies": {
-        "@types/swagger-ui-express": "^4.1.8",
         "@commitlint/cli": "^19.8.0",
         "@commitlint/config-conventional": "^19.8.0",
         "@types/body-parser": "^1.19.5",

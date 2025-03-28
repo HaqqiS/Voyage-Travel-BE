@@ -12,7 +12,7 @@ const doc = {
             description: "Local server",
         },
         {
-            url: "https://back-end-acara-sand.vercel.app/api  ",
+            url: "https://voyage-travel-be.vercel.app/api",
             description: "Deploy server",
         },
     ],
@@ -109,6 +109,4 @@ const doc = {
 const outputFile = "./swagger_output.json";
 const endpointsFiles = ["../routes/api.ts"];
 
-swaggerAutogen({
-    openapi: "3.0.0",
-})(outputFile, endpointsFiles, doc);
+swaggerAutogen({openapi: '3.0.0'})(outputFile, endpointsFiles, doc);

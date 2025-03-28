@@ -8,35 +8,30 @@ import response from "./utils/response";
 import errorMiddleware from "./middlewares/error.middleware";
 import docs from "./docs/route";
 
-async function init() {
-    try {
-        const result = await db();
-        console.log("Database connection: ", result);
+db()
+    .then((result) => console.log("Database connection: ", result))
+    .catch((error) => console.log("Database connection error: ", error));
 
-        const app = express();
+const app = express();
 
-        app.use(cors());
-        app.use(bodyParser.json());
+app.use(cors());
+app.use(bodyParser.json());
 
-        const port = PORT;
+const port = PORT;
 
-        app.get("/", (req, res) => {
-            response.success(res, null, "Welcome to the API");
-        });
+app.get("/", (req, res) => {
+    response.success(res, null, "Welcome to the API");
+});
 
-        app.use("/api", router);
-        // Setup Swagger documentation
-        docs(app);
+app.use("/api", router);
+// Setup Swagger documentation
+docs(app);
 
-        app.use(errorMiddleware.serverRoute());
-        app.use(errorMiddleware.serverError());
+app.use(errorMiddleware.serverRoute());
+app.use(errorMiddleware.serverError());
 
-        app.listen(port, () => {
-            console.log(`Server is running on http://localhost:${port}`);
-        });
-    } catch (error) {
-        console.log(error);
-    }
-}
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
 
-init();
+export default app;

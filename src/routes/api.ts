@@ -1,14 +1,15 @@
 import express from "express";
-import authController from "../controllers/auth.controller";
 import authMiddleware from "../middlewares/auth.middleware";
 import aclMiddleware from "../middlewares/acl.middleware";
 import { ROLES } from "../utils/constant";
+import authController from "../controllers/auth.controller";
 import destinationController from "../controllers/destination.controller";
 import mediaMiddleware from "../middlewares/media.middleware";
 import mediaController from "../controllers/media.controller";
 import tourController from "../controllers/tour.controller";
 import bannerController from "../controllers/banner.controller";
 import participantController from "../controllers/participant.controller";
+import orderController from "../controllers/order.controller";
 
 const router = express.Router();
 
@@ -556,6 +557,36 @@ router.delete(
         type: 'string',
         description: "Participant ID"
     }
+    */
+);
+
+router.post(
+    "/orders",
+    [authMiddleware, aclMiddleware([ROLES.USER, ROLES.ADMIN])],
+    orderController.create,
+    /*
+    #swagger.tags = ['Orders']
+    #swagger.summary = 'Create a new order'
+    */
+);
+
+router.get(
+    "/orders",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    orderController.findAll,
+    /*
+    #swagger.tags = ['Orders']  
+    #swagger.summary = 'Get all orders'
+    */
+);
+
+router.get(
+    "/orders/:id",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    orderController.findOne,
+    /*
+    #swagger.tags = ['Orders']
+    #swagger.summary = 'Get an order by ID'
     */
 );
 

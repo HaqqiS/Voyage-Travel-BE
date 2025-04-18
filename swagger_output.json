@@ -874,6 +874,50 @@
                     }
                 ]
             }
+        },
+        "/orders": {
+            "post": {
+                "tags": ["Orders"],
+                "summary": "Create a new order",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Orders"],
+                "summary": "Get all orders",
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/orders/{id}": {
+            "get": {
+                "tags": ["Orders"],
+                "summary": "Get an order by ID",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
         }
     },
     "components": {

@@ -3,13 +3,32 @@ import { Response } from "express";
 import response from "../utils/response";
 import ParticipantModel, { participantDTO } from "../models/participant.model";
 import { isValidObjectId } from "mongoose";
+import TourModel from "../models/tour.model";
+import UserModel from "../models/user.model";
 
 export default {
     async create(req: IReqUser, res: Response) {
         try {
-            await participantDTO.validate(req.body);
+            const { createdBy, tour, person } = req.body;
 
-            const result = await ParticipantModel.create(req.body);
+            const tourDoc = await TourModel.findById(tour);
+            if (!tourDoc) return response.notFound(res, "Tour not found");
+
+            const createdByDoc = await UserModel.findById(createdBy);
+            if (!createdByDoc) return response.notFound(res, "Created by not found");
+
+            const totalPerson = person.length;
+
+            const payload = {
+                createdBy,
+                tour,
+                person,
+                totalPerson,
+            };
+
+            await participantDTO.validate(payload);
+
+            const result = await ParticipantModel.create(payload);
             response.success(res, result, "Participant created successfully");
         } catch (error) {
             response.error(res, error, "Failed to create participant");

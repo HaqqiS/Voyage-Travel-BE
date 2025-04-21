@@ -103,12 +103,19 @@ const doc = {
                 ],
                 totalPerson: 2,
             },
+            OrderRequest: {
+                tour: "67e3d01c78c90ac3d9de8080",
+                participant: "67e519d747467bf388e6b55a",
+            },
         },
     },
 };
 
 // Gunakan path absolut
-const outputFile = path.join(process.cwd(), "swagger_output.json");
-const endpointsFiles = [path.join(process.cwd(), "src/routes/api.ts")];
+// const outputFile = path.join(process.cwd(), "swagger_output.json");
+// const endpointsFiles = [path.join(process.cwd(), "src/routes/api.ts")];
+
+const outputFile = "./swagger_output.json";
+const endpointsFiles = ["../routes/api.ts"];
 
 swaggerAutogen({ openapi: "3.0.0" })(outputFile, endpointsFiles, doc);

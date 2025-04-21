@@ -849,7 +849,7 @@
                 }
             },
             "delete": {
-                "tags": ["Participants"],
+                "tags": ["Participant"],
                 "summary": "Delete a participant",
                 "description": "",
                 "parameters": [
@@ -884,6 +884,26 @@
                     "default": {
                         "description": ""
                     }
+                },
+                "security": [
+                    {
+                        "bearerAuth": ""
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderRequest"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderRequest"
+                            }
+                        }
+                    }
                 }
             },
             "get": {
@@ -917,6 +937,126 @@
                         "description": ""
                     }
                 }
+            }
+        },
+        "/orders-history": {
+            "get": {
+                "tags": ["Order"],
+                "description": "",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": ""
+                    }
+                ]
+            }
+        },
+        "/orders/{orderId}/completed": {
+            "put": {
+                "tags": ["Order"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": ""
+                    }
+                ]
+            }
+        },
+        "/orders/{orderId}/pending": {
+            "put": {
+                "tags": ["Order"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": ""
+                    }
+                ]
+            }
+        },
+        "/orders/{orderId}/cancelled": {
+            "put": {
+                "tags": ["Order"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": ""
+                    }
+                ]
+            }
+        },
+        "/orders/{orderId}": {
+            "delete": {
+                "tags": ["Order"],
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "orderId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": ""
+                    }
+                ]
             }
         }
     },
@@ -1161,6 +1301,22 @@
                 },
                 "xml": {
                     "name": "ParticipantRequest"
+                }
+            },
+            "OrderRequest": {
+                "type": "object",
+                "properties": {
+                    "tour": {
+                        "type": "string",
+                        "example": "67e3d01c78c90ac3d9de8080"
+                    },
+                    "participant": {
+                        "type": "string",
+                        "example": "67e519d747467bf388e6b55a"
+                    }
+                },
+                "xml": {
+                    "name": "OrderRequest"
                 }
             }
         }

@@ -567,19 +567,66 @@ router.post(
     /*
     #swagger.tags = ['Orders']
     #swagger.summary = 'Create a new order'
+    #swagger.security = [{
+        "bearerAuth": ""
+    }]
+    #swagger.requestBody = {
+        required: true,
+        schema: {
+            $ref: "#/components/schemas/OrderRequest"
+        }
+    }
     */
 );
 
 router.get(
     "/orders",
-    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    [authMiddleware, aclMiddleware([ROLES.ADMIN, ROLES.USER])],
     orderController.findAll,
     /*
     #swagger.tags = ['Orders']  
     #swagger.summary = 'Get all orders'
+    #swagger.security = [{
+        "bearerAuth": ""
+    }]
+    #swagger.parameters['limit'] = {
+        in: 'query',
+        type: 'number',
+        default: 10
+    }
+    #swagger.parameters['page'] = {
+        in: 'query',
+        type: 'number',
+        default: 1
+    }
+    #swagger.parameters['search'] = {
+        in: 'query',
+        type: 'string',
+        description: "Search by order ID"
+    }
+    #swagger.parameters['status'] = {
+        in: 'query',
+        type: 'string',
+        enum: ['pending', 'completed', 'cancelled'],
+        description: "Filter by order status"
+    }
+    #swagger.parameters['tour'] = {
+        in: 'query',
+        type: 'string',
+        description: "Filter by tour ID"
+    }
+    #swagger.parameters['participant'] = {
+        in: 'query',
+        type: 'string',
+        description: "Filter by participant ID"
+    }
+    #swagger.parameters['createdBy'] = {
+        in: 'query',
+        type: 'string',
+        description: "Filter by createdBy"
+    }
     */
 );
-
 router.get(
     "/orders/:id",
     [authMiddleware, aclMiddleware([ROLES.ADMIN])],
@@ -587,6 +634,67 @@ router.get(
     /*
     #swagger.tags = ['Orders']
     #swagger.summary = 'Get an order by ID'
+    #swagger.security = [{
+        "bearerAuth": ""
+    }]
+    */
+);
+
+router.get(
+    "/orders-history",
+    [authMiddleware, aclMiddleware([ROLES.USER, ROLES.ADMIN])],
+    orderController.findAllByUser,
+    /*
+    #swagger.tags = ['Orders']
+    #swagger.security = [{
+        "bearerAuth": ""
+    }]
+    */
+);
+
+router.put(
+    "/orders/:orderId/completed",
+    [authMiddleware, aclMiddleware([ROLES.USER, ROLES.ADMIN])],
+    orderController.complete,
+    /*
+    #swagger.tags = ['Orders']
+    #swagger.security = [{
+        "bearerAuth": ""
+    }]
+    */
+);
+router.put(
+    "/orders/:orderId/pending",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    orderController.pending,
+    /*
+    #swagger.tags = ['Orders']
+    #swagger.security = [{
+        "bearerAuth": ""
+    }]
+    */
+);
+router.put(
+    "/orders/:orderId/cancelled",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    orderController.cancelled,
+    /*
+    #swagger.tags = ['Orders']
+    #swagger.security = [{
+        "bearerAuth": ""
+    }]
+    */
+);
+
+router.delete(
+    "/orders/:orderId",
+    [authMiddleware, aclMiddleware([ROLES.ADMIN])],
+    orderController.remove,
+    /*
+    #swagger.tags = ['Orders']
+    #swagger.security = [{
+        "bearerAuth": ""
+    }]
     */
 );
 

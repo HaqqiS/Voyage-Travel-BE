@@ -6,6 +6,7 @@ import { generateToken } from "../utils/jwt";
 import { GoogleUserInfo, IReqUser } from "../utils/interfaces";
 import { getGoogleAuthURL, getGoogleUserInfo } from "../utils/googleAuth";
 import { getId } from "../utils/id";
+import { FRONTEND_URL } from "../utils/environment";
 
 export default {
     async register(req: Request, res: Response) {
@@ -84,6 +85,10 @@ export default {
                 response.error(res, null, "Failed to get user info from Google");
             }
 
+            if (!googleUser.verified_email) {
+                response.error(res, null, "Google email is not verified");
+            }
+
             // Cek apakah user dengan googleId ini sudah ada
             let user = await UserModel.findOne({ googleId: googleUser.id });
 
@@ -121,7 +126,8 @@ export default {
             });
 
             // Redirect ke frontend dengan token atau kirim JSON
-            response.success(res, { token, user }, "Google authentication successful");
+            // response.success(res, { token, user }, "Google authentication successful");
+            res.redirect(`${FRONTEND_URL}/auth/google/callback?token=${token}`);
         } catch (error) {
             // console.error("Google auth error:", error);
             response.error(res, error, "Authentication failed");

@@ -7,6 +7,7 @@ import router from "./routes/api";
 import response from "./utils/response";
 import errorMiddleware from "./middlewares/error.middleware";
 import docs from "./docs/route";
+import authController from "./controllers/auth.controller";
 
 db()
     .then((result) => console.log("Database connection: ", result))
@@ -24,6 +25,15 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", router);
+
+app.get(
+    "/auth/google/callback",
+    authController.googleCallback,
+    /*
+    #swagger.tags = ['Auth']
+    #swagger.summary = 'Get Google authentication callback'
+    */
+);
 // Setup Swagger documentation
 docs(app);
 

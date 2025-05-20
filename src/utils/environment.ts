@@ -6,6 +6,8 @@ export const PORT: number | string = process.env.PORT || 3000;
 
 export const SECRET: string = process.env.SECRET || "";
 
+export const FRONTEND_URL: string = process.env.FRONTEND_URL || "";
+
 export const DATABASE_URL: string = process.env.DATABASE_URL || "";
 
 export const GOOGLE_CLIENT_ID: string = process.env.GOOGLE_CLIENT_ID || "";
